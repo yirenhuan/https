@@ -70,7 +70,6 @@ root节点笔者创建了一个bjubi.com/的文件夹，专门存放来自这个
 bjubi.com/文件夹下增加一个index.html文件，里面仅仅写了一行<h1>welcome。
 
 复制代码
-复制代码
 server {
     listen 443 ssl;
     server_name bjubi.com; // 你的域名
@@ -87,12 +86,15 @@ server {
         index index.html index.htm;
     }
 }
+
 server {
     listen 80;
     server_name bjubi.com;// 你的域名
     rewrite ^(.*)$ https://$host$1 permanent;// 把http的域名请求转成https
 }
+
 https 访问php文件需要增加配置：
+
 location ~ \.php$ {
     root /data/wwwroot/main;
     fastcgi_pass unix:/dev/shm/php-cgi.sock;
@@ -100,6 +102,7 @@ location ~ \.php$ {
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include fastcgi_params;
 }
+
 配置完成后，检查一下nginx配置文件是否可用，有successful表示可用。
 
 $ nginx -t // 检查nginx配置文件
